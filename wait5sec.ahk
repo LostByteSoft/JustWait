@@ -17,35 +17,50 @@
 	SetEnv, sleep, 5
 	SetEnv, sleep2, %sleep%
 	Sleep2 *= 2
-	SetEnv, logoicon, C:\Windows\winsxs\amd64_microsoft-windows-dxp-deviceexperience_31bf3856ad364e35_6.1.7601.17514_none_a54b31331066c8e2\sync.ico
 
 	SetEnv, title, Wait %sleep2% seconds
 	SetEnv, mode, Wait and quit.
-	SetEnv, version, Version 2017-10-14-2028
+	SetEnv, version, Version 2017-11-23-1336
 	SetEnv, Author, LostByteSoft
+	SetEnv, debug, 0
+	SetEnv, logoicon, C:\Windows\winsxs\amd64_microsoft-windows-dxp-deviceexperience_31bf3856ad364e35_6.1.7601.17514_none_a54b31331066c8e2\sync.ico
+
+	FileInstall, SharedIcons.dll, C:\Program Files\Common Files\SharedIcons.dll, 0
 
 ;;--- Menu Tray options ---
+
+	SharedIcons :=  "C:\Program Files\Common Files\SharedIcons.dll"		;; Put wait5sec anywhere and icon came from c:\pf\si.dll
 
 	Menu, Tray, NoStandard
 	Menu, tray, add, ---=== %title% ===---, about
 	Menu, Tray, Icon, ---=== %title% ===---, %logoicon%
 	Menu, tray, add, Show logo, GuiLogo
-	Menu, tray, add, Secret MsgBox, secret				; Secret MsgBox, just show all options and variables of the program
+	Menu, tray, add, Secret MsgBox, secret					; Secret MsgBox, just show all options and variables of the program
+	Menu, Tray, Icon, Secret MsgBox, %SharedIcons%, 1
 	Menu, tray, add, About && ReadMe, author
+	Menu, Tray, Icon, About && ReadMe, %SharedIcons%, 2
 	Menu, tray, add, Author %author%, about
 	menu, tray, disable, Author %author%
 	Menu, tray, add, %version%, about
 	menu, tray, disable, %version%
 	Menu, tray, add,
-	Menu, tray, add, Exit, Close					; Close exit program
-	Menu, tray, add, Refresh, doReload				; Reload the script. Usefull if you change something in configuration
-	Menu, tray, add, Set Debug mode (Toggle), debug
+	Menu, tray, add, --== Control ==--, about
+	Menu, Tray, Icon, --== Control ==--, %SharedIcons%, 3
+	Menu, tray, add, Exit %title%, Close					; Close exit program
+	Menu, Tray, Icon, Exit %title%,  %SharedIcons%, 4
+	Menu, tray, add, Refresh (ini mod), doReload 				; Reload the script.
+	Menu, Tray, Icon, Refresh (ini mod),  %SharedIcons%, 5
+	Menu, tray, add, Set Debug (Toggle), debug
+	Menu, Tray, Icon, Set Debug (Toggle),  %SharedIcons%, 6
+	Menu, tray, add, Pause (Toggle), pause
+	Menu, Tray, Icon, Pause (Toggle),  %SharedIcons%, 7
 	Menu, tray, add,
 	Menu, Tray, Tip, %title%
 
 ;;--- Software start here ---
 
-loop:
+start:
+	loop:
 	Sleep, %sleep%000
 
 	IfEqual, debug, 1, TrayTip, Sleeper, Just sleep for %sleep2% seconds. In debug mode this software do not quit. (quit by tray or press ESC)., 4, 1
@@ -55,17 +70,38 @@ loop:
 	IfEqual, debug, 1, goto, loop
 	Goto, close
 
-Debug:
-	IfEqual, debug, 0, goto, enable
-	IfEqual, debug, 1, goto, disable
+;;--- Debug Pause ---
 
-	enable:
-	SetEnv, debug, 1
-	Goto, loop
+debug:
+	IfEqual, debug, 0, goto, debug1
+	IfEqual, debug, 1, goto, debug0
 
-	disable:
+	debug0:
 	SetEnv, debug, 0
-	Goto, loop
+	goto, start
+
+	debug1:
+	SetEnv, debug, 1
+	goto, start
+
+pause:
+	Ifequal, pause, 0, goto, paused
+	Ifequal, pause, 1, goto, unpaused
+
+	paused:
+	SetEnv, pause, 1
+	goto, sleep
+
+	unpaused:	
+	Menu, Tray, Icon, %logoicon%
+	SetEnv, pause, 0
+	Goto, start
+
+	sleep:
+	Menu, Tray, Icon, %SharedIcons%, 7
+	sleep2:
+	sleep, 500000
+	goto, sleep2
 
 ;;--- Quit (escape , esc) ---
 
@@ -83,7 +119,7 @@ doReload:
 ;;--- Tray bar ---
 
 secret:
-	MsgBox, 48, %title%,All variables is shown here.`n`nTitle=%title% mode=%mode% version=%version% author=%author% A_WorkingDir=%A_WorkingDir% Sleep=%sleep% sleep2=%sleep2%
+	MsgBox, 48, %title%,All variables is shown here.`n`nTitle=%title% mode=%mode% version=%version% author=%author% A_WorkingDir=%A_WorkingDir%
 	Return
 
 about:
@@ -99,9 +135,14 @@ version:
 	Return
 
 GuiLogo:
-	Gui, Add, Picture, x25 y25 w400 h400 , C:\Windows\winsxs\amd64_microsoft-windows-dxp-deviceexperience_31bf3856ad364e35_6.1.7601.17514_none_a54b31331066c8e2\sync.ico
-	Gui, Show, w450 h450, %title% Logo
-	Gui, Color, 000000
+	Gui, 4:Add, Picture, x25 y25 w400 h400, %logoicon%
+	Gui, 4:Show, w450 h450, %title% Logo
+	Gui, 4:Color, 000000
+	Sleep, 500
+	Return
+
+	4GuiClose:
+	Gui 4:Cancel
 	return
 
 ;;--- End of script ---
