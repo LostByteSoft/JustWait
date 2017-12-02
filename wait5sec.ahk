@@ -9,7 +9,7 @@
 
 ;;--- Softwares var options files ---
 
-	Menu, Tray, Icon, C:\Windows\winsxs\amd64_microsoft-windows-dxp-deviceexperience_31bf3856ad364e35_6.1.7601.17514_none_a54b31331066c8e2\sync.ico
+	;;Menu, Tray, Icon, C:\Windows\winsxs\amd64_microsoft-windows-dxp-deviceexperience_31bf3856ad364e35_6.1.7601.17514_none_a54b31331066c8e2\sync.ico
 
 	SetWorkingDir, %A_ScriptDir%
 	#NoEnv
@@ -20,10 +20,9 @@
 
 	SetEnv, title, Wait %sleep2% seconds
 	SetEnv, mode, Wait and quit.
-	SetEnv, version, Version 2017-11-23-1336
+	SetEnv, version, Version 2017-12-02-1307
 	SetEnv, Author, LostByteSoft
 	SetEnv, debug, 0
-	SetEnv, logoicon, C:\Windows\winsxs\amd64_microsoft-windows-dxp-deviceexperience_31bf3856ad364e35_6.1.7601.17514_none_a54b31331066c8e2\sync.ico
 
 	FileInstall, SharedIcons.dll, C:\Program Files\Common Files\SharedIcons.dll, 0
 
@@ -31,9 +30,11 @@
 
 	SharedIcons :=  "C:\Program Files\Common Files\SharedIcons.dll"		;; Put wait5sec anywhere and icon came from c:\pf\si.dll
 
+	Menu, Tray, Icon, %SharedIcons%, 9
+
 	Menu, Tray, NoStandard
 	Menu, tray, add, ---=== %title% ===---, about
-	Menu, Tray, Icon, ---=== %title% ===---, %logoicon%
+	Menu, Tray, Icon, ---=== %title% ===---, %SharedIcons%, 9
 	Menu, tray, add, Show logo, GuiLogo
 	Menu, tray, add, Secret MsgBox, secret					; Secret MsgBox, just show all options and variables of the program
 	Menu, Tray, Icon, Secret MsgBox, %SharedIcons%, 1
@@ -119,7 +120,7 @@ doReload:
 ;;--- Tray bar ---
 
 secret:
-	MsgBox, 48, %title%,All variables is shown here.`n`nTitle=%title% mode=%mode% version=%version% author=%author% A_WorkingDir=%A_WorkingDir%
+	MsgBox, 48, %title%,All variables is shown here.`n`nTitle=%title% mode=%mode% version=%version% author=%author% A_WorkingDir=%A_WorkingDir%`n`nSharedIcons=%SharedIcons%
 	Return
 
 about:
