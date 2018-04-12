@@ -4,6 +4,7 @@
 ;;	Compatibility: Windows
 ;;	All files must be in same folder. Where you want.
 ;;	64 bit AHK version : 1.1.24.2 64 bit Unicode
+;;	2018-04-12-1906 Windows 7 64bit compatible
 
 ;;	Why make it simple when you can make it complicated.
 
@@ -18,44 +19,68 @@
 	SetEnv, sleep2, %sleep%
 	Sleep2 *= 2
 
-	SetEnv, title, Wait %sleep2% seconds
-	SetEnv, mode, Wait and quit.
-	SetEnv, version, Version 2017-12-02-1307
+	SetEnv, title, Wait5seconds
+	SetEnv, mode, Wait 5 sec. and quit.
+	SetEnv, version, Version 2018-04-12-1905
 	SetEnv, Author, LostByteSoft
+	SetEnv, icofolder, C:\Program Files\Common Files\
+	SetEnv, logoicon, sync.ico
 	SetEnv, debug, 0
-
-	FileInstall, SharedIcons.dll, C:\Program Files\Common Files\SharedIcons.dll, 0
 
 ;;--- Menu Tray options ---
 
-	SharedIcons :=  "C:\Program Files\Common Files\SharedIcons.dll"		;; Put wait5sec anywhere and icon came from c:\pf\si.dll
+	;; Specific Icons (or files)
+	FileInstall, sync.ico, %icofolder%\sync.ico, 0
 
-	Menu, Tray, Icon, %SharedIcons%, 9
+	;; Common ico
+	FileInstall, SharedIcons\ico_about.ico, %icofolder%\ico_about.ico, 0
+	FileInstall, SharedIcons\ico_lock.ico, %icofolder%\ico_lock.ico, 0
+	FileInstall, SharedIcons\ico_options.ico, %icofolder%\ico_options.ico, 0
+	FileInstall, SharedIcons\ico_reboot.ico, %icofolder%\ico_reboot.ico, 0
+	FileInstall, SharedIcons\ico_shut.ico, %icofolder%\ico_shut.ico, 0
+	FileInstall, SharedIcons\ico_debug.ico, %icofolder%\ico_debug.ico, 0
+	FileInstall, SharedIcons\ico_HotKeys.ico, %icofolder%\ico_HotKeys.ico, 0
+	FileInstall, SharedIcons\ico_pause.ico, %icofolder%\ico_pause.ico, 0
+	FileInstall, SharedIcons\ico_loupe.ico, %icofolder%\ico_loupe.ico, 0
+	FileInstall, SharedIcons\ico_folder.ico, %icofolder%\ico_folder.ico, 0
+
+;;--- Menu Tray options ---
 
 	Menu, Tray, NoStandard
 	Menu, tray, add, ---=== %title% ===---, about
-	Menu, Tray, Icon, ---=== %title% ===---, %SharedIcons%, 9
+	Menu, Tray, Icon, ---=== %title% ===---, %icofolder%\%logoicon%
 	Menu, tray, add, Show logo, GuiLogo
-	Menu, tray, add, Secret MsgBox, secret					; Secret MsgBox, just show all options and variables of the program
-	Menu, Tray, Icon, Secret MsgBox, %SharedIcons%, 1
-	Menu, tray, add, About && ReadMe, author
-	Menu, Tray, Icon, About && ReadMe, %SharedIcons%, 2
-	Menu, tray, add, Author %author%, about
+	Menu, tray, add, Secret MsgBox, secret					; Secret MsgBox, just show all options and variables of the program.
+	Menu, Tray, Icon, Secret MsgBox, %icofolder%\ico_lock.ico
+	Menu, tray, add, About && ReadMe, author				; infos about author
+	Menu, Tray, Icon, About && ReadMe, %icofolder%\ico_about.ico
+	Menu, tray, add, Author %author%, about					; author msg box
 	menu, tray, disable, Author %author%
-	Menu, tray, add, %version%, about
+	Menu, tray, add, %version%, about					; version of the software
 	menu, tray, disable, %version%
+	Menu, tray, add, Open project web page, webpage				; open web page project
+	Menu, Tray, Icon, Open project web page, %icofolder%\ico_HotKeys.ico
 	Menu, tray, add,
 	Menu, tray, add, --== Control ==--, about
-	Menu, Tray, Icon, --== Control ==--, %SharedIcons%, 3
-	Menu, tray, add, Exit %title%, Close					; Close exit program
-	Menu, Tray, Icon, Exit %title%,  %SharedIcons%, 4
-	Menu, tray, add, Refresh (ini mod), doReload 				; Reload the script.
-	Menu, Tray, Icon, Refresh (ini mod),  %SharedIcons%, 5
-	Menu, tray, add, Set Debug (Toggle), debug
-	Menu, Tray, Icon, Set Debug (Toggle),  %SharedIcons%, 6
-	Menu, tray, add, Pause (Toggle), pause
-	Menu, Tray, Icon, Pause (Toggle),  %SharedIcons%, 7
+	Menu, Tray, Icon, --== Control ==--, %icofolder%\ico_options.ico
+	menu, tray, add, Show Gui (Same as click), start			; Default gui open
+	Menu, Tray, Icon, Show Gui (Same as click), %icofolder%\ico_loupe.ico
+	Menu, Tray, Default, Show Gui (Same as click)
+	Menu, Tray, Click, 1
+	Menu, tray, add, Set Debug (Toggle), debug				; debug msg
+	Menu, Tray, Icon, Set Debug (Toggle), %icofolder%\ico_debug.ico
+	Menu, tray, add, Open A_WorkingDir, A_WorkingDir			; open where the exe is
+	Menu, Tray, Icon, Open A_WorkingDir, %icofolder%\ico_folder.ico
 	Menu, tray, add,
+	Menu, tray, add, Exit %title%, ExitApp					; Close exit program
+	Menu, Tray, Icon, Exit %title%, %icofolder%\ico_shut.ico
+	Menu, tray, add, Refresh (Ini mod), doReload 				; Reload the script.
+	Menu, Tray, Icon, Refresh (Ini mod), %icofolder%\ico_reboot.ico
+	Menu, tray, add, Pause (Toggle), pause					; pause the script
+	Menu, Tray, Icon, Pause (Toggle), %icofolder%\ico_pause.ico
+	Menu, tray, add,
+	Menu, tray, add, --== Options ==--, about
+	Menu, Tray, Icon, --== Options ==--, %icofolder%\ico_options.ico
 	Menu, Tray, Tip, %title%
 
 ;;--- Software start here ---
@@ -63,15 +88,12 @@
 start:
 	loop:
 	Sleep, %sleep%000
-
 	IfEqual, debug, 1, TrayTip, Sleeper, Just sleep for %sleep2% seconds. In debug mode this software do not quit. (quit by tray or press ESC)., 4, 1
-
 	Sleep, %sleep%000
-
 	IfEqual, debug, 1, goto, loop
 	Goto, close
 
-;;--- Debug Pause ---
+;;--- Debug ---
 
 debug:
 	IfEqual, debug, 0, goto, debug1
@@ -79,11 +101,15 @@ debug:
 
 	debug0:
 	SetEnv, debug, 0
-	goto, start
+	TrayTip, %title%, Deactivated ! debug=%debug%, 1, 2
+	Goto, sleep2
 
 	debug1:
 	SetEnv, debug, 1
-	goto, start
+	TrayTip, %title%, Activated ! debug=%debug%, 1, 2
+	Goto, sleep2
+
+;;--- Pause ---
 
 pause:
 	Ifequal, pause, 0, goto, paused
@@ -99,12 +125,12 @@ pause:
 	Goto, start
 
 	sleep:
-	Menu, Tray, Icon, %SharedIcons%, 7
+	Menu, Tray, Icon, %icofolder%\ico_pause.ico
 	sleep2:
 	sleep, 500000
 	goto, sleep2
 
-;;--- Quit (escape , esc) ---
+;;--- Quit ---
 
 Close:
 	ExitApp
@@ -113,14 +139,18 @@ Escape::
 	ExitApp
 
 doReload:
+	Gui, destroy
 	Reload
-	sleep, 100
-	goto, Close
+	sleep, 500
+
+ExitApp:
+	Gui, destroy
+	ExitApp
 
 ;;--- Tray bar ---
 
 secret:
-	MsgBox, 48, %title%,All variables is shown here.`n`nTitle=%title% mode=%mode% version=%version% author=%author% A_WorkingDir=%A_WorkingDir%`n`nSharedIcons=%SharedIcons%
+	MsgBox, 48, %title%,All variables is shown here.`n`nTitle=%title% mode=%mode% version=%version% author=%author% A_WorkingDir=%A_WorkingDir%
 	Return
 
 about:
@@ -145,6 +175,16 @@ GuiLogo:
 	4GuiClose:
 	Gui 4:Cancel
 	return
+
+A_WorkingDir:
+	IfEqual, debug, 1, msgbox, run, explorer.exe "%A_WorkingDir%"
+	run, explorer.exe "%A_WorkingDir%"
+	Return
+
+webpage:
+	run, https://github.com/LostByteSoft/JustWait
+	Return
+
 
 ;;--- End of script ---
 ;
