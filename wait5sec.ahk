@@ -63,7 +63,7 @@
 	Menu, tray, add,
 	Menu, tray, add, --== Control ==--, about
 	Menu, Tray, Icon, --== Control ==--, %icofolder%\ico_options.ico
-	menu, tray, add, Show Gui (Same as click), start			; Default gui open
+	menu, tray, add, Show Gui (Same as click), author			; Default gui open
 	Menu, Tray, Icon, Show Gui (Same as click), %icofolder%\ico_loupe.ico
 	Menu, Tray, Default, Show Gui (Same as click)
 	Menu, Tray, Click, 1
@@ -81,6 +81,8 @@
 	Menu, tray, add,
 	Menu, tray, add, --== Options ==--, about
 	Menu, Tray, Icon, --== Options ==--, %icofolder%\ico_options.ico
+	Menu, tray, add, No options, about					; author msg box
+	menu, tray, disable, No options
 	Menu, Tray, Tip, %title%
 
 ;;--- Software start here ---
