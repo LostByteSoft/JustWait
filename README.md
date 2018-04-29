@@ -11,7 +11,7 @@ All that it's. (and nothing more)
 
 - Kill a bloatware without the good part.
 - Make a wait in batch file.
-- Kill an auto updater.
+- Kill an auto updater. (replace & rename the file)
 
 ### Precompilled for x64
 
