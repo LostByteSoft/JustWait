@@ -18,9 +18,26 @@
 
 	SetEnv, title, Wait %sleep2% seconds
 	SetEnv, mode, Wait and quit.
-	SetEnv, version, Version 2018-04-27-1357
+	SetEnv, version, Version 2018-04-29-0932
 	SetEnv, Author, LostByteSoft
 	SetEnv, debug, 0
+
+; Remove ; if you want icons
+;	SetEnv, icofolder, C:\Program Files\Common Files
+;	SetEnv, logoicon, ico_sync.ico
+;	;; specific files
+;	FileInstall, ico_sync.ico, %icofolder%\ico_sync.ico, 0
+;	;; Common ico
+;	FileInstall, SharedIcons\ico_about.ico, %icofolder%\ico_about.ico, 0
+;	FileInstall, SharedIcons\ico_lock.ico, %icofolder%\ico_lock.ico, 0
+;	FileInstall, SharedIcons\ico_options.ico, %icofolder%\ico_options.ico, 0
+;	FileInstall, SharedIcons\ico_reboot.ico, %icofolder%\ico_reboot.ico, 0
+;	FileInstall, SharedIcons\ico_shut.ico, %icofolder%\ico_shut.ico, 0
+;	FileInstall, SharedIcons\ico_debug.ico, %icofolder%\ico_debug.ico, 0
+;	FileInstall, SharedIcons\ico_HotKeys.ico, %icofolder%\ico_HotKeys.ico, 0
+;	FileInstall, SharedIcons\ico_pause.ico, %icofolder%\ico_pause.ico, 0
+;	FileInstall, SharedIcons\ico_loupe.ico, %icofolder%\ico_loupe.ico, 0
+;	FileInstall, SharedIcons\ico_folder.ico, %icofolder%\ico_folder.ico, 0
 
 ;;--- Menu Tray options ---
 
@@ -156,7 +173,8 @@ version:
 	Return
 
 GuiLogo:
-	Gui, 4:Add, Picture, x25 y25 w400 h400, %icofolder%\%logoicon%
+	Gui, 4:Add, Picture, x25 y25 w400 h400, %A_WorkingDir%\%A_ScriptName%
+	;; Gui, 4:Add, Picture, x25 y25 w400 h400, %icofolder%\%logoicon%
 	Gui, 4:Show, w450 h450, %title% Logo
 	Gui, 4:Color, 000000
 	Gui, 4:-MinimizeBox
@@ -173,7 +191,7 @@ A_WorkingDir:
 	Return
 
 webpage:
-	run, https://github.com/LostByteSoft/HashCalc
+	run, https://github.com/LostByteSoft/
 	Return
 
 ;;--- End of script ---
