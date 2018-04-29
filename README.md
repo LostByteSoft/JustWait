@@ -6,6 +6,7 @@ All that it's. (and nothing more). Precompilled for x64.
 ## What do this software ?
 
 - Wait 5 seconds and quit.
+- Show a popup when run.
 
 ### What could be used ?
 
