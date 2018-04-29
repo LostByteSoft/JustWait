@@ -14,3 +14,7 @@ All that it's. (and nothing more)
 - Kill an auto updater.
 
 ### Precompilled for x64
+
+![Screenshot](Picture_1.jpg)
+
+![Screenshot](Picture_2.jpg)
