@@ -3,7 +3,6 @@ This thing is just waiting 5 seconds to quit. (or more)
 
 All that it's. (and nothing more). Precompilled for x64.
 
-File JustWait.7z includes all files.
 
 ## What do this software ?
 
