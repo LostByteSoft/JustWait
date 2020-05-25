@@ -18,15 +18,18 @@
 
 	SetEnv, title, Wait %sleep2% seconds
 	SetEnv, mode, Wait and quit.
-	SetEnv, version, Version 2018-04-29-0932
+	SetEnv, version, Version 2020-05-23
 	SetEnv, Author, LostByteSoft
 	SetEnv, debug, 0
 
-; Remove ; if you want icons
+	SetEnv, nomsg, 1	;; put 1 to remove the traytip msg (silent mode)
+
+; Remove ; if you want icons (removed for win10 compatibility)
+
 ;	SetEnv, icofolder, C:\Program Files\Common Files
 ;	SetEnv, logoicon, ico_sync.ico
 ;	;; specific files
-;	FileInstall, ico_sync.ico, %icofolder%\ico_sync.ico, 0
+;	FileInstall, SharedIcons\ico_sync.ico, %icofolder%\ico_sync.ico, 0
 ;	;; Common ico
 ;	FileInstall, SharedIcons\ico_about.ico, %icofolder%\ico_about.ico, 0
 ;	FileInstall, SharedIcons\ico_lock.ico, %icofolder%\ico_lock.ico, 0
@@ -86,7 +89,11 @@
 start:
 	loop:
 
+	IfEqual, nomsg, 1, goto, nomsg
+
 	TrayTip , %Title%, File location : %A_WorkingDir%\ (In clipboard) and the name is %A_ScriptName%, 2, 18
+
+	nomsg:
 
 	clipboard = %A_WorkingDir%\
 
