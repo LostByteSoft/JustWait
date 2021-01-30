@@ -22,7 +22,7 @@
 	SetEnv, Author, LostByteSoft
 	SetEnv, debug, 0
 
-	SetEnv, nomsg, 0	;; put 1 to remove the traytip msg (silent mode)
+	SetEnv, nomsg, 1	;; put 1 to remove the traytip msg (silent mode)
 
 ; Remove ; if you want icons (removed for win10 compatibility)
 
@@ -95,7 +95,7 @@ start:
 
 	nomsg:
 
-	clipboard = %A_WorkingDir%\
+	clipboard = %A_WorkingDir%\	;; with some things this is causing some issues
 
 	Sleep, %sleep%000
 
@@ -217,6 +217,9 @@ webpage:
 ;              You just DO WHAT THE FUCK YOU WANT TO.
 ;
 ;		     NO FUCKING WARRANTY AT ALL
+;
+;      The warranty is included in your anus. Look carefully you
+;             might miss all theses small characters.
 ;
 ;	As is customary and in compliance with current global and
 ;	interplanetary regulations, the author of these pages disclaims
