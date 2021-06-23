@@ -1,11 +1,12 @@
 ;;--- Head --- Informations --- AHK --- File(s) needed ---
 
-;;	start up all minimize windows
 ;;	Compatibility: Windows
 ;;	All files must be in same folder. Where you want.
 ;;	64 bit AHK version : 1.1.24.2 64 bit Unicode
 
 ;;	Why make it simple when you can make it complicated.
+
+;;	Version 2021-06-23
 
 ;;--- Softwares var options files ---
 
@@ -24,65 +25,32 @@
 
 	SetEnv, nomsg, 1	;; put 1 to remove the traytip msg (silent mode)
 
-; Remove ; if you want icons (removed for win10 compatibility)
-
-;	SetEnv, icofolder, C:\Program Files\Common Files
-;	SetEnv, logoicon, ico_sync.ico
-;	;; specific files
-;	FileInstall, SharedIcons\ico_sync.ico, %icofolder%\ico_sync.ico, 0
-;	;; Common ico
-;	FileInstall, SharedIcons\ico_about.ico, %icofolder%\ico_about.ico, 0
-;	FileInstall, SharedIcons\ico_lock.ico, %icofolder%\ico_lock.ico, 0
-;	FileInstall, SharedIcons\ico_options.ico, %icofolder%\ico_options.ico, 0
-;	FileInstall, SharedIcons\ico_reboot.ico, %icofolder%\ico_reboot.ico, 0
-;	FileInstall, SharedIcons\ico_shut.ico, %icofolder%\ico_shut.ico, 0
-;	FileInstall, SharedIcons\ico_debug.ico, %icofolder%\ico_debug.ico, 0
-;	FileInstall, SharedIcons\ico_HotKeys.ico, %icofolder%\ico_HotKeys.ico, 0
-;	FileInstall, SharedIcons\ico_pause.ico, %icofolder%\ico_pause.ico, 0
-;	FileInstall, SharedIcons\ico_loupe.ico, %icofolder%\ico_loupe.ico, 0
-;	FileInstall, SharedIcons\ico_folder.ico, %icofolder%\ico_folder.ico, 0
-
 ;;--- Menu Tray options ---
 
 	Menu, Tray, NoStandard
 	Menu, tray, add, ---=== %title% ===---, about
-	;;Menu, Tray, Icon, ---=== %title% ===---, %icofolder%\%logoicon%
 	Menu, tray, add, Show logo, GuiLogo
 	Menu, tray, add, Secret MsgBox, secret					; Secret MsgBox, just show all options and variables of the program.
-	;;Menu, Tray, Icon, Secret MsgBox, %icofolder%\ico_lock.ico
 	Menu, tray, add, About && ReadMe, author				; infos about author
-	;;Menu, Tray, Icon, About && ReadMe, %icofolder%\ico_about.ico
 	Menu, tray, add, Author %author%, about					; author msg box
 	menu, tray, disable, Author %author%
 	Menu, tray, add, %version%, about					; version of the software
 	menu, tray, disable, %version%
 	Menu, tray, add, Open project web page, webpage				; open web page project
-	;;Menu, Tray, Icon, Open project web page, %icofolder%\ico_HotKeys.ico
 	Menu, tray, add,
 	Menu, tray, add, --== Control ==--, about
-	;;Menu, Tray, Icon, --== Control ==--, %icofolder%\ico_options.ico
-	;menu, tray, add, Show Gui (Same as click), start			; Default gui open
-	;Menu, Tray, Icon, Show Gui (Same as click), %icofolder%\ico_loupe.ico
-	;Menu, Tray, Default, Show Gui (Same as click)
-	;Menu, Tray, Click, 1
 	Menu, tray, add, Set Debug (Toggle), debug				; debug msg
-	;;Menu, Tray, Icon, Set Debug (Toggle), %icofolder%\ico_debug.ico
 	Menu, tray, add, Open A_WorkingDir, A_WorkingDir			; open where the exe is
-	;;Menu, Tray, Icon, Open A_WorkingDir, %icofolder%\ico_folder.ico
 	Menu, tray, add,
 	Menu, tray, add, Exit %title%, ExitApp					; Close exit program
-	;;Menu, Tray, Icon, Exit %title%, %icofolder%\ico_shut.ico
 	Menu, tray, add, Refresh (Ini mod), doReload 				; Reload the script.
-	;;Menu, Tray, Icon, Refresh (Ini mod), %icofolder%\ico_reboot.ico
 	Menu, tray, add, Pause (Toggle), pause					; pause the script
-	;;Menu, Tray, Icon, Pause (Toggle), %icofolder%\ico_pause.ico
 	Menu, tray, add,
 	Menu, tray, add, --== Options ==--, about
-	;;Menu, Tray, Icon, --== Options ==--, %icofolder%\ico_options.ico
-	;;Menu, tray, add, Show working folder and app name (Toggle), pause	
+	menu, tray, add,
+	menu, tray, add, Show infos, secret
 	menu, tray, add,
 	Menu, Tray, Tip, %mode%
-	;;Menu, Tray, Icon, %icofolder%\%logoicon%
 
 ;;--- Software start here ---
 
@@ -104,6 +72,8 @@ start:
 	Sleep, %sleep%000
 
 	IfEqual, debug, 1, goto, loop
+
+	IfEqual, pause, 1, goto, loop
 
 	Goto, close
 
@@ -128,12 +98,10 @@ pause:
 	Ifequal, pause, 1, goto, unpaused
 
 	paused:
-		;;Menu, Tray, Icon, %icofolder%\ico_pause.ico
 		SetEnv, pause, 1
 		goto, start
 
 	unpaused:
-		;;Menu, Tray, Icon, %icofolder%\%logoicon%
 		SetEnv, pause, 0
 		Goto, start
 
@@ -181,7 +149,6 @@ version:
 
 GuiLogo:
 	Gui, 4:Add, Picture, x25 y25 w400 h400, %A_WorkingDir%\%A_ScriptName%
-	;; Gui, 4:Add, Picture, x25 y25 w400 h400, %icofolder%\%logoicon%
 	Gui, 4:Show, w450 h450, %title% Logo
 	Gui, 4:Color, 000000
 	Gui, 4:-MinimizeBox
@@ -217,9 +184,6 @@ webpage:
 ;              You just DO WHAT THE FUCK YOU WANT TO.
 ;
 ;		     NO FUCKING WARRANTY AT ALL
-;
-;      The warranty is included in your anus. Look carefully you
-;             might miss all theses small characters.
 ;
 ;	As is customary and in compliance with current global and
 ;	interplanetary regulations, the author of these pages disclaims

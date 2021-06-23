@@ -1,11 +1,8 @@
 ;;--- Head --- Informations --- AHK --- File(s) needed ---
 
-;;	start up all minimize windows
 ;;	Compatibility: Windows
 ;;	All files must be in same folder. Where you want.
 ;;	64 bit AHK version : 1.1.24.2 64 bit Unicode
-
-;;	Why make it simple when you can make it complicated.
 
 ;;--- Software start here ---
 
@@ -29,9 +26,6 @@ start:
 ;              You just DO WHAT THE FUCK YOU WANT TO.
 ;
 ;		     NO FUCKING WARRANTY AT ALL
-;
-;      The warranty is included in your anus. Look carefully you
-;             might miss all theses small characters.
 ;
 ;	As is customary and in compliance with current global and
 ;	interplanetary regulations, the author of these pages disclaims
